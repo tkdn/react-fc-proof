@@ -1,0 +1,58 @@
+{
+    "lintOptions": {
+        "typeCheck": true
+    },
+    "extends": "tslint:recommended",
+    "rules": {
+        "cyclomatic-complexity": true,
+        "newline-before-return": false,
+        "no-unused-variable": true,
+        "no-object-literal-type-assertion": false,
+        "forin": false,
+        "align": {
+        "options": ["parameters", "statements", "members", "elements"]
+        },
+        "no-import-side-effect": false,
+        "no-unnecessary-class": false,
+        "arrow-parens": false,
+        "no-submodule-imports": false,
+        "no-implicit-dependencies": false,
+        "no-magic-numbers": false,
+        "no-non-null-assertion": false,
+        "no-null-keyword": false,
+        "no-require-imports": false,
+        "no-unbound-method": false,
+        "no-unnecessary-qualifier": false,
+        "no-void-expression": false,
+        "prefer-function-over-method": false,
+        "strict-type-predicates": false,
+        "no-trailing-whitespace": false,
+        "no-default-export": false,
+        "object-literal-sort-keys": false,
+        "ordered-imports": false,
+        "ban": [true, ["describe", "only"], ["it", "only"]],
+        "interface-name": false,
+        "max-classes-per-file": false,
+        "max-line-length": [true, 140],
+        "member-ordering": [
+            true,
+            "public-before-private",
+            "static-before-instance",
+            "variables-before-functions"
+        ],
+        "no-console": [true, "log", "error"],
+        "no-switch-case-fall-through": true,
+        "strict-boolean-expressions": [true, "allow-boolean-or-undefined"],
+        "switch-default": false,
+        "variable-name": [
+            true,
+            "ban-keywords",
+            "check-format",
+            "allow-leading-underscore",
+            "allow-pascal-case"
+        ],
+        "semicolon": [true, "always"],
+        "quotemark": [true, "double", "jsx-double"],
+        "indent": [true, "spaces", 4]
+    }
+}
