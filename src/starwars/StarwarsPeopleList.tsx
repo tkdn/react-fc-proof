@@ -6,7 +6,7 @@ interface PeopleListState {
     error: boolean;
     limit: boolean;
     loading: boolean;
-    url: string;
+    endpoint: string;
 }
 
 export default class StarWarsPeopleList extends React.PureComponent<{}, PeopleListState> {
@@ -15,10 +15,10 @@ export default class StarWarsPeopleList extends React.PureComponent<{}, PeopleLi
         error: false,
         limit: false,
         loading: false,
-        url: "https://swapi.co/api/people/",
+        endpoint: "https://swapi.co/api/people/",
     };
 
-    public abortController = new AbortController();
+    private abortController = new AbortController();
 
     public componentDidMount() {
         this.loadMore();
@@ -42,7 +42,7 @@ export default class StarWarsPeopleList extends React.PureComponent<{}, PeopleLi
                     {list.map((people: IPeople) => {
                         return (
                             <li key={people.url}>
-                                <FunctionalItem height={people.height} name={people.name} url={people.url} />
+                                <FunctionalItem name={people.name} attrs={{ height: people.height}} />
                             </li>
                         );
                     })}
@@ -56,7 +56,7 @@ export default class StarWarsPeopleList extends React.PureComponent<{}, PeopleLi
 
     private loadMore = () => {
         this.setState({loading: true});
-        fetch(this.state.url, {signal: this.abortController.signal})
+        fetch(this.state.endpoint, {signal: this.abortController.signal})
             .then(r => r.json())
             .then(json => {
                 if (json.next === null) {
@@ -64,7 +64,7 @@ export default class StarWarsPeopleList extends React.PureComponent<{}, PeopleLi
                 }
                 this.setState({
                     list: this.state.list.concat(json.results),
-                    url: json.next,
+                    endpoint: json.next,
                     loading: false,
                 });
             })

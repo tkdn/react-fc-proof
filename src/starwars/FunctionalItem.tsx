@@ -5,51 +5,63 @@ interface IPeople {
     url: string;
     height: string;
 }
+interface PPeople {
+    name: string;
+    attrs: any;
+}
 
-const style = {
+const style: React.CSSProperties = {
     cursor: "pointer",
 };
 
-class PureItem extends React.PureComponent<IPeople, {}> {
+/**
+ * React.PureComponent
+ */
+class PureItem extends React.PureComponent<PPeople, {}> {
+    private attrsRef = React.createRef<HTMLBaseElement>();
+
     public render() {
-        const { name, height } = this.props;
+        const { name, attrs: { height } } = this.props;
         return (
             <>
-                <span onClick={this.clickHandler(height)} style={style}>
+                <span onClick={this.clickHandler} style={style}>
                     {name}
                 </span>
+                <span hidden ref={this.attrsRef}> --- height: {height}</span>
             </>
         );
     }
-    private clickHandler = (height: string) => (e: React.SyntheticEvent<HTMLSpanElement>) => {
-        const target = e.target as Element;
-        if (target.innerHTML.includes("height")) {
-            return;
-        }
-        target.innerHTML += ` --- height: ${height}`;
+
+    private clickHandler = () => {
+        const target = this.attrsRef.current as HTMLBaseElement;
+        target.hidden = !target.hidden;
     }
 }
 
-const FunctionalItem: React.SFC<IPeople> = props => {
-    const { name, height } = props;
+/**
+ * React.SFC
+ */
+const FunctionalItem: React.SFC<PPeople> = props => {
+    const ref = React.createRef<HTMLBaseElement>();
+    const { name, attrs: { height } } = props;
     return (
         <>
-            <span onClick={(e) => {
-                const target = e.target as Element;
-                if (target.innerHTML.includes("height")) {
-                    return;
-                }
-                target.innerHTML += ` --- height: ${height}`;
-            }} style={{
-                cursor: "pointer",
+            <span style={style} onClick={() => {
+                const target = ref.current as HTMLBaseElement;
+                target.hidden = !target.hidden;
             }}>
                 {name}
             </span>
+            <span hidden ref={ref}> --- height: {height}</span>
         </>
     );
 };
 
-const MemoizedItem = React.memo(FunctionalItem);
+/**
+ * React.memo, and compare function
+ */
+const compare = (pProps, nProps) => pProps.name === nProps.name;
+const MemoizedItem = React.memo(FunctionalItem, compare);
 
 export {
     PureItem,
